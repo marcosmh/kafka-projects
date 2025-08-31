@@ -1,0 +1,46 @@
+
+#iniciar zookeeper
+bin/zkCli.sh -server 127.0.0.1:2181
+
+# otra configuracion
+bin/zkCli.sh -client-configuration  ./conf/zookeeper.properties
+
+
+#iniciar kafka server
+bin/kafka-server-start.sh config/server.properties
+
+#configuracion Kafka Server
+Generate a Cluster UUID
+
+$ KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
+
+Format Log Directories
+
+$ bin/kafka-storage.sh format --standalone -t $KAFKA_CLUSTER_ID -c config/server.properties
+
+
+#crear topic
+bin/kafka-topics.sh --create --topic example-topic --bootstrap-server localhost:9092
+
+
+#ver topic creado
+bin/kafka-topics.sh --describe --topic example-topic --bootstrap-server localhost:9092
+
+#ver todos los topicos
+bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+
+
+#observar topic
+bin/kafka-console-consumer.sh --topic example-topic --bootstrap-server localhost:9092
+
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic example-topic
+
+bin/kafka-console-producer.sh --topic example-topic --bootstrap-server localhost:9092
+bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic example-topic
+
+
+
+
+
+
+
